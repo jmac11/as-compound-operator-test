@@ -1,0 +1,130 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>As-compound-operator-test by mnem</title>
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="javascripts/main.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+  </head>
+  <body>
+
+      <header>
+        <h1>As-compound-operator-test</h1>
+        <p>A test of AS compound operators compiled with both legacy and ASC2 compilers.</p>
+      </header>
+
+      <div id="banner">
+        <span id="logo"></span>
+
+        <a href="https://github.com/mnem/as-compound-operator-test" class="button fork"><strong>View On GitHub</strong></a>
+        <div class="downloads">
+          <span>Downloads:</span>
+          <ul>
+            <li><a href="https://github.com/mnem/as-compound-operator-test/zipball/master" class="button">ZIP</a></li>
+            <li><a href="https://github.com/mnem/as-compound-operator-test/tarball/master" class="button">TAR</a></li>
+          </ul>
+        </div>
+      </div><!-- end banner -->
+
+    <div class="wrapper">
+      <nav>
+        <ul></ul>
+      </nav>
+      <section>
+        <p>For some background on this issue, see <a href="http://noiseandheat.com/blog/2010/02/compound-operators-new-and-you/">Compound Operators, New and You.</a>. It appears it still occurs with the new ASC2 compiler.</p>
+
+<p>ActionScript code used to create the circle:</p>
+
+<div class="highlight"><pre>    <span class="kd">private</span> <span class="kd">function</span> <span class="nx">addCircle</span><span class="p">()</span><span class="o">:</span><span class="nx">void</span> <span class="p">{</span>
+      <span class="nx">addChild</span><span class="p">(</span><span class="k">new</span> <span class="nx">NumberedCircle</span><span class="p">()).</span><span class="nx">x</span> <span class="o">+=</span> <span class="mi">85</span><span class="o">;</span>
+    <span class="p">}</span>
+</pre></div>
+
+<h2>Legacy compiler</h2>
+
+<p><img src="legacy.png" alt="Legacy compiled version screenshot"></p>
+
+<p>Relevant bytecode:</p>
+
+<pre><code>  private function addCircle():void
+  {
+    //  derivedName  null  
+    //  method_info  3     
+    //  max_stack    3     
+    //  max_regs     1     
+    //  scope_depth  9     
+    //  max_scope    10    
+    //  code_length  30    
+    bb0
+      succs=[]
+      0       getlocal0                           
+      1       pushscope                           
+      2       findpropstrict  addChild            
+      3       findpropstrict  NumberedCircle      
+      4       constructprop                       
+      5       callproperty                        
+      6       findpropstrict  addChild            
+      7       findpropstrict  NumberedCircle      
+      8       constructprop                       
+      9       callproperty                        
+      10      getproperty     x                   
+      11      pushbyte                        85  
+      12      add                                 
+      13      setproperty     x                   
+      14      returnvoid                          
+  }
+</code></pre>
+
+<h2>ASC2 compiler</h2>
+
+<p><img src="asc2.png" alt="ASC2 compiled version screenshot"></p>
+
+<p>Relevant bytecode:</p>
+
+<pre><code>  private function addCircle():void
+  {
+    //  derivedName  addCircle  
+    //  method_info  2          
+    //  max_stack    3          
+    //  max_regs     1          
+    //  scope_depth  0          
+    //  max_scope    1          
+    //  code_length  31         
+    bb0
+      succs=[]
+      0       getlocal0                           
+      1       pushscope                           
+      2       findpropstrict  addChild            
+      3       findpropstrict  NumberedCircle      
+      4       constructprop                       
+      5       callproperty                        
+      6       getproperty     x                   
+      7       pushbyte                        85  
+      8       add                                 
+      9       findpropstrict  addChild            
+      10      findpropstrict  NumberedCircle      
+      11      constructprop                       
+      12      callproperty                        
+      13      swap                                
+      14      setproperty     x                   
+      15      returnvoid                          
+  }
+</code></pre>
+      </section>
+      <footer>
+        <p>Project maintained by <a href="https://github.com/mnem">mnem</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="http://twitter.com/#!/michigangraham">mattgraham</a></small></p>
+      </footer>
+    </div>
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+    
+  </body>
+</html>
