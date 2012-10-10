@@ -1,0 +1,11 @@
+:app_name: 'test.swf'
+:output: 'bin'
+:main: 'src/CompoundTest.as'
+:swf_version: 13
+:srcs:
+  - 'src'
+
+# These are the 2 import ones. This is where
+# we get the compilers from
+:legacy_sdk: '/Applications/Adobe Flash Builder 4.6/sdks/4.6.0'
+:asc2_sdk: '/Users/mnem/Developer/tools/air3-4_p3_sdk_asc2_mac_100512'
